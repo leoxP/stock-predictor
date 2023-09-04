@@ -7,10 +7,10 @@ from sklearn.preprocessing import MinMaxScaler
 from keras.layers import Dense,Dropout,LSTM
 from keras.models import Sequential
 
-start='2010-01-01'
+start='2012-01-01'
 end=dt.datetime.now()
 
-df=yf.download('AAPL',start,end)
+df=yf.download('TSLA',start,end)
 
 df=df.reset_index() #adding indexing to rows
 
@@ -21,11 +21,11 @@ df=df.drop(['Date','Adj Close'],axis=1)
 ma100=df.Close.rolling(100).mean()
 ma200=df.Close.rolling(200).mean()
 
-# plotter.figure(figsize=(12,6))
-# plotter.plot(df.Close)
-# plotter.plot(ma100,'red')
-# plotter.plot(ma200,'green')
-# plotter.show()
+plotter.figure(figsize=(12,6))
+plotter.plot(df.Close)
+plotter.plot(ma100,'red')
+plotter.plot(ma200,'green')
+plotter.show()
 
 #Splitting Data into Training and Testing
 data_training=pd.DataFrame(df['Close'][0:int(len(df)*0.7)])
@@ -77,7 +77,8 @@ model.add(Dense(units=1)) #Connects all 4 layers of LSTM model
 past_100_days=data_training.tail(100)
 final_df=pd.concat([past_100_days,data_testing],ignore_index=True)
 input_data=scaler.fit_transform(final_df)
-            
+
+print(data_testing)
 x_test=[]
 y_test=[]
 
@@ -94,17 +95,12 @@ from keras.models import load_model
 model = load_model('keras_model.h5')
 
 y_predicted=model.predict(x_test)
-scale_val=scaler.scale_[0]
- 
-scale_factor=1/scale_val
-y_predicted=y_predicted*scale_factor
-y_test=y_test*scale_factor
-
-# y_test = y_test.reshape(-1,1)
+y_test_original = scaler.inverse_transform(y_test.reshape(-1, 1))
+y_predicted_original = scaler.inverse_transform(y_predicted)
 
 plotter.figure(figsize=(12,6))
-plotter.plot(y_test,'b',label='Original Price')
-plotter.plot(y_predicted,'r',label='Predicted Price')
+plotter.plot(y_test_original,'b',label='Original Price')
+plotter.plot(y_predicted_original,'r',label='Predicted Price')
 plotter.xlabel('Time')
 plotter.ylabel('Price')
 plotter.legend()
