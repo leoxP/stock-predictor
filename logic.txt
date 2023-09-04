@@ -1,0 +1,6 @@
+10 days data = 34 36 33 40 39 38 37 42 44 38
+Now we need to predict data for 11th day
+This is dependent on the last 10 days data
+10 days data=x_train
+11th day=y_train
+(In this model we use the last 100 days to predict the new data)

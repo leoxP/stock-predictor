@@ -10,7 +10,7 @@ from keras.models import Sequential
 start='2012-01-01'
 end=dt.datetime.now()
 
-df=yf.download('TSLA',start,end)
+df=yf.download('MSFT',start,end)
 
 df=df.reset_index() #adding indexing to rows
 
@@ -105,3 +105,15 @@ plotter.xlabel('Time')
 plotter.ylabel('Price')
 plotter.legend()
 plotter.show()
+
+last_100_days = df['Close'].tail(100).values
+scaled_last_100_days = scaler.transform(last_100_days.reshape(-1, 1))
+scaled_last_100_days = scaled_last_100_days.reshape(1, -1, 1)
+
+predicted_scaled_value = model.predict(scaled_last_100_days)
+predicted_value = predicted_scaled_value[0][0]
+
+# Inverse transform to get the original scale
+predicted_value = scaler.inverse_transform(np.array([[predicted_value]]))
+
+print(f"Predicted stock value for tomorrow: ${predicted_value[0][0]:.2f}")
