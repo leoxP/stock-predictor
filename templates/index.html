@@ -7,10 +7,10 @@
     </head>
     <body> 
         <div id="search-container"> 
-            <div id="search-icon">&#128269;</div>
-            <form action="/search" method="GET">
-                <input type="text" name="stock_symbol" placeholder="Search">
-                <input type="submit" value="Select" name="search-button">
+            <form action="/search" method="POST">
+                <h1>Stock Analysis Tool</h1>
+	            <input type="text" value="" placeholder="Enter the Stock Symbol" id="searchBar">
+	            <button><div id="search-icon">&#128269;</div></button>
             </form>
         </div>
     </body>
