@@ -6,11 +6,11 @@
         <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
     </head>
     <body> 
-        <div id="search-container"> 
+        <div class="search-box" id="search-container"> 
             <form action="/search" method="POST">
                 <h1>Stock Analysis Tool</h1>
-	            <input type="text" value="" placeholder="Enter the Stock Symbol" id="searchBar">
-	            <button><div id="search-icon">&#128269;</div></button>
+	            <input type="text" name="searchBar" placeholder="Enter the Stock Symbol" id="searchBar" style="font-size: 16px;">
+	            <button style="font-size: 32px;"><div id="search-icon">&#128269;</div></button>
             </form>
         </div>
     </body>

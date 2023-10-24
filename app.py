@@ -8,7 +8,7 @@ def home():
 
 @app.route('/search', methods=['POST'])
 def search():
-    stock_symbol=request.form.get('stock_symbol')
+    stock_symbol=request.form.get('searchBar')
     print(f'Stock Symbol: {stock_symbol}')
     return render_template("stock-details.html")
 
